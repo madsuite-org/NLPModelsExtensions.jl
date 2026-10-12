@@ -1,0 +1,6 @@
+[deps]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+NLPModelsExtensions = "9cd2a9e5-4f7e-49d8-9c22-2c3493c9421f"
+
+[sources]
+NLPModelsExtensions = {path = ".."}
