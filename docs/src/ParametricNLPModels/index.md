@@ -1,4 +1,4 @@
-# ParametricNLPModels.jl
+# ParametricNLPModels
 
 Parametric sensitivity interface for [NLPModels.jl](https://github.com/JuliaSmoothOptimizers/NLPModels.jl).
 
