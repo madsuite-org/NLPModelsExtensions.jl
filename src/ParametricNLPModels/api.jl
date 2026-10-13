@@ -290,11 +290,10 @@ Evaluate the objective Hessian with respect to the variables and the parameters 
 with objective function scaled by `obj_weight`, i.e.,
 $(OBJECTIVE_HESSIAN_PAR).
 """
-function hess_par_dense!(nlp::AbstractNLPModel, x::AbstractVector, Hxθ::AbstractMatrix; obj_weight = one(eltype(x)))
+function hess_par_dense!(nlp::AbstractNLPModel{T, S}, x::AbstractVector, Hxθ::AbstractMatrix; obj_weight = one(eltype(x))) where {T, S}
     @lencheck get_nvar(nlp) x
-    rows, cols = hess_par_structure(nlp)
-    vals = hess_par_coord(nlp, x; obj_weight)
-    return _dense!(Hxθ, rows, cols, vals)
+    y = fill!(S(undef, get_ncon(nlp)), 0)
+    return hess_par_dense!(nlp, x, y, Hxθ; obj_weight)
 end
 
 """
