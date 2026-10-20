@@ -5,5 +5,5 @@ Pages = ["reference.md"]
 ```
 
 ```@autodocs
-Modules = [NLPModelsExtensions.ParametricNLPModels]
+Modules = [NLPModelsExtensions]
 ```

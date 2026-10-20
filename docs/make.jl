@@ -6,7 +6,7 @@ makedocs(
     format = Documenter.HTML(
         prettyurls = Base.get(ENV, "CI", nothing) == "true",
         mathengine = Documenter.KaTeX(),
-        size_threshold_ignore = ["ParametricNLPModels/reference.md"],
+        size_threshold_ignore = ["reference.md"],
     ),
     modules = [NLPModelsExtensions],
     repo = Documenter.Remotes.GitHub("madsuite-org", "NLPModelsExtensions.jl"),
@@ -14,10 +14,9 @@ makedocs(
     clean = true,
     pages = [
         "Home" => "index.md",
-        "ParametricNLPModels" => [
-            "Overview" => "ParametricNLPModels/index.md",
-            "Reference" => "ParametricNLPModels/reference.md",
-        ],
+        "Batched models" => "batched.md",
+        "Parametric models" => "parametric.md",
+        "Reference" => "reference.md",
     ],
 )
 
