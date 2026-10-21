@@ -15,7 +15,7 @@ column per instance.
 
 `get_nvar`, `get_x0` and the other `NLPModels` getters work on the meta and on the model.
 """
-struct BatchedNLPModelMeta{T, M <: AbstractMatrix{T}} <: AbstractNLPModelMeta{T, M}
+struct BatchedNLPModelMeta{T, M <: AbstractMatrix{T}}
     nvar::Int
     ncon::Int
     nbatch::Int
@@ -53,6 +53,11 @@ function BatchedNLPModelMeta(
     return BatchedNLPModelMeta{eltype(M), M}(
         nvar, ncon, nbatch, x0, lvar, uvar, y0, lcon, ucon, nnzj, nnzh, minimize, name,
     )
+end
+
+for field in filter(!=(:nbatch), fieldnames(BatchedNLPModelMeta))
+    meth = Symbol("get_", field)
+    @eval NLPModels.$meth(meta::BatchedNLPModelMeta) = getproperty(meta, $(QuoteNode(field)))
 end
 
 """

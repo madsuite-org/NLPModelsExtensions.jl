@@ -8,8 +8,13 @@ macro sizecheck(m, n, vars...)
     for var in vars
         varname = string(var)
         push!(exprs, :(
-            if size($(esc(var))) != ($(esc(m)), $(esc(n)))
-                throw(DimensionMismatch(string("Input ", $varname, " should have size ", ($(esc(m)), $(esc(n))), " not ", size($(esc(var))))))
+            if size($(esc(var)), 1) != $(esc(m))
+                throw(DimensionError(string($varname, " rows"), $(esc(m)), size($(esc(var)), 1)))
+            end
+        ))
+        push!(exprs, :(
+            if size($(esc(var)), 2) != $(esc(n))
+                throw(DimensionError(string($varname, " columns"), $(esc(n)), size($(esc(var)), 2)))
             end
         ))
     end

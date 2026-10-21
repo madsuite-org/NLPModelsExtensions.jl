@@ -63,12 +63,12 @@
     @test get_lvar(nlp)[1, :] == [-4.0, -6.0]
     @test get_lcon(nlp) == [5.0 7.0]
 
-    @test_throws DimensionMismatch jac_par_coord(nlp, X[:, 1:1])
+    @test_throws DimensionError jac_par_coord(nlp, X[:, 1:1])
     @test_throws DimensionError hess_par_coord(nlp, X, Y, [1.0])
-    @test_throws DimensionMismatch jprod_par(nlp, X, ones(1, 2))
-    @test_throws DimensionMismatch htprod_par(nlp, X, Y, ones(1, 2), σ)
+    @test_throws DimensionError jprod_par(nlp, X, ones(1, 2))
+    @test_throws DimensionError htprod_par(nlp, X, Y, ones(1, 2), σ)
     @test_throws DimensionError jprod_par!(nlp, [1, 1], [2, 2], [-3.0 0.5], V, zeros(1, 2))
-    @test_throws DimensionMismatch lvar_jprod_par(nlp, ones(1, 2))
+    @test_throws DimensionError lvar_jprod_par(nlp, ones(1, 2))
     @test_throws ErrorException ParametricNLPModelMeta(; npar = -1)
 end
 

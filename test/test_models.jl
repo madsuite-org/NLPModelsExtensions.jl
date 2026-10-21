@@ -96,7 +96,7 @@ Jθ(x) = [0 x[1] * x[2]]
 Hxθ(x, y, σ) = [2σ * x[1] y[1] * x[2]; 0 y[1] * x[1]]
 
 # Batched but not parametric
-struct BatchOnly <: AbstractBatchedNLPModel{Float64, Matrix{Float64}}
+struct BatchedNLPModel <: AbstractBatchedNLPModel{Float64, Matrix{Float64}}
     meta::BatchedNLPModelMeta{Float64, Matrix{Float64}}
     counters::Counters
 end

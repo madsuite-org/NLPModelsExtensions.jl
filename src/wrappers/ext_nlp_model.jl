@@ -4,8 +4,12 @@ export ExtNLPModel
     ExtNLPModel(model)
 
 Wrap an ordinary `AbstractNLPModel` as an [`AbstractExtNLPModel`](@ref): a batch of one
-instance, with data as one-column matrices, and no parameters (`npar = 0`). Evaluations are
-forwarded to `model` on the first column, and the counters are those of `model`.
+instance, with data as one-column matrices. Evaluations are forwarded to `model` on the first
+column, and the counters are those of `model`.
+
+Defaults to no parameters (`npar = 0`). The package that defines the type of `model` adds
+parameters by extending [`get_par_meta`](@ref) and the parametric functions on
+`ExtNLPModel{T, M, <:ModelType}`, e.g. ExaModels for an `ExaModel`.
 """
 struct ExtNLPModel{T, M <: AbstractMatrix{T}, N <: AbstractNLPModel{T}} <: AbstractExtNLPModel{T, M}
     meta::BatchedNLPModelMeta{T, M}
@@ -33,6 +37,6 @@ jac_structure!(nlp::ExtNLPModel, rows::AbstractVector{T}, cols::AbstractVector{T
 jac_coord!(nlp::ExtNLPModel, X::AbstractMatrix, V::AbstractMatrix) = (jac_coord!(nlp.model, view(X, :, 1), view(V, :, 1)); V)
 hess_structure!(nlp::ExtNLPModel, rows::AbstractVector{T}, cols::AbstractVector{T}) where {T} = hess_structure!(nlp.model, rows, cols)
 function hess_coord!(nlp::ExtNLPModel, X::AbstractMatrix, Y::AbstractMatrix, σ::AbstractVector, V::AbstractMatrix)
-    hess_coord!(nlp.model, view(X, :, 1), view(Y, :, 1), view(V, :, 1); obj_weight = only(σ))
+    hess_coord!(nlp.model, view(X, :, 1), view(Y, :, 1), view(V, :, 1); obj_weight = only(Array(σ)))
     return V
 end

@@ -3,7 +3,7 @@
     @test AbstractParametricNLPModel <: AbstractBatchedNLPModel <: AbstractNLPModel
     @test TestModel([2.0; 3.0;;]) isa AbstractExtNLPModel
 
-    b = BatchOnly(BatchedNLPModelMeta(2, 3), Counters())
+    b = BatchedNLPModel(BatchedNLPModelMeta(2, 3), Counters())
     @test b isa AbstractNLPModel
     @test !(b isa AbstractExtNLPModel)
     @test get_nbatch(b) == 3
@@ -25,8 +25,8 @@ end
 
     @test_throws ErrorException BatchedNLPModelMeta(0, 3)
     @test_throws ErrorException BatchedNLPModelMeta(2, 0)
-    @test_throws DimensionMismatch BatchedNLPModelMeta(2, 3; x0 = zeros(2, 2))
-    @test_throws DimensionMismatch BatchedNLPModelMeta(2, 3; ncon = 1, lcon = zeros(2, 3))
+    @test_throws DimensionError BatchedNLPModelMeta(2, 3; x0 = zeros(2, 2))
+    @test_throws DimensionError BatchedNLPModelMeta(2, 3; ncon = 1, lcon = zeros(2, 3))
 end
 
 @testset "AbstractBatchedNLPModel" begin
@@ -55,8 +55,8 @@ end
     @test neval_obj(nlp) == 1
     @test occursin("nbatch: 3", sprint(show, nlp))
 
-    @test_throws DimensionMismatch obj(nlp, X[:, 1:2])
-    @test_throws DimensionMismatch grad(nlp, X')
-    @test_throws DimensionMismatch hess_coord(nlp, X, [Y; Y], σ)
+    @test_throws DimensionError obj(nlp, X[:, 1:2])
+    @test_throws DimensionError grad(nlp, X')
+    @test_throws DimensionError hess_coord(nlp, X, [Y; Y], σ)
     @test_throws DimensionError hess_coord(nlp, X, Y, [1.0])
 end
