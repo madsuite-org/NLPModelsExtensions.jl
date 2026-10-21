@@ -3,9 +3,10 @@ export ParametricNLPModelMeta, get_par_meta
 """
     ParametricNLPModelMeta(; kwargs...)
 
-Metadata for the derivatives with respect to the parameters.
+Metadata for the derivatives with respect to the parameters. Counts are per instance: the
+sparsity patterns are shared by the batch.
 
-- `npar`: number of parameters
+- `npar`: number of parameters per instance
 - `nnzo_par`: number of nonzeros in ``∂f/∂θ``
 - `nnzj_par`: number of nonzeros in ``∂c/∂θ``
 - `nnzh_par`: number of nonzeros in ``∂²L/∂x∂θ``
@@ -52,7 +53,7 @@ end
 
 Return the `ParametricNLPModelMeta` of `nlp`. Defaults to no parameters.
 """
-get_par_meta(nlp::AbstractNLPModel) = ParametricNLPModelMeta()
+get_par_meta(nlp::AbstractParametricNLPModel) = ParametricNLPModelMeta()
 
 for field in fieldnames(ParametricNLPModelMeta)
     meth = Symbol("get_", field)
@@ -64,7 +65,7 @@ for field in fieldnames(ParametricNLPModelMeta)
         Return the value `$($(QuoteNode(field)))` from `par_meta` or `get_par_meta(nlp)`.
         """
         $meth(par_meta::ParametricNLPModelMeta) = getproperty(par_meta, $(QuoteNode(field)))
-        $meth(nlp::AbstractNLPModel) = $meth(get_par_meta(nlp))
+        $meth(nlp::AbstractParametricNLPModel) = $meth(get_par_meta(nlp))
         export $meth
     end
 end

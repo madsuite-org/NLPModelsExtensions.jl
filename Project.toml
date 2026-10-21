@@ -1,14 +1,12 @@
 name = "NLPModelsExtensions"
 uuid = "9cd2a9e5-4f7e-49d8-9c22-2c3493c9421f"
-version = "0.1.0"
+version = "0.2.0"
 
 [deps]
 NLPModels = "a4795742-8479-5a88-8948-cc11e1c8c1a6"
-SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 
 [compat]
 NLPModels = "0.21"
-SparseArrays = "1.9"
 julia = "1.9"
 
 [extras]
